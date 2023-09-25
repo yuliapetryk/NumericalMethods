@@ -7,8 +7,8 @@ public class Newton extends Method {
     }
 
     public  double execute () {
-        double x = b;
-        int i = 0;
+        double x = (a + b) / 2;
+        int i = 1;
         while(Math.abs(function(x)) >=  epsilon){
             x -= function(x) / derivativeFunction(x);
             i++;

@@ -4,12 +4,16 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        double a , b, epsilon;
+        a=-1; b=0; epsilon=0.001;
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Input a,b ");
-        double a = scanner.nextDouble();
-        double b = scanner.nextDouble();
+
+       /* System.out.println("Input a,b ");
+        a = scanner.nextDouble();
+        b = scanner.nextDouble();
         System.out.println("Input epsilon ");
-        double epsilon = scanner.nextDouble();
+        epsilon = scanner.nextDouble();*/
 
         while(true) {
 

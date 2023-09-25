@@ -13,13 +13,15 @@ public abstract class Method {
     }
 
     public double function(double x) {
-        return  3*x + Math.cos(x) +1;
+  return Math.pow(x,2) + Math.sin(x) - 12*x - 0.25;
+        //return  3*x + Math.cos(x) +1;
         //return  Math.pow(x,2) - 4.0;
 
     }
 
     public double derivativeFunction(double x){
-        return  3- Math.sin(x) ;
+        return 2*x + Math.cos(x) - 12;
+         //return  3- Math.sin(x) ;
         //return  2.0 * x;
     }
 

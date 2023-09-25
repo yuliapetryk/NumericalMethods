@@ -12,10 +12,10 @@ public class Relaxation extends Method {
         double tau=-2.0/(min+max);
         double x = b;
         double nextX=a;
-        int i=0;
+        int i=1;
         while (Math.abs(x - nextX) >= epsilon) {
             x = nextX;
-            nextX= x + tau * function(x);
+            nextX= x - tau * function(x);
             i++;
         }
         System.out.println("Number of iterations = "+ i);
