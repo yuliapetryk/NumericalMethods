@@ -2,24 +2,66 @@ package methods;
 
 public abstract class Method {
 
-    protected final static double EPS = 0.000001;
+    protected double[][] matrix;
+    protected double[] vector;
 
-    protected  double[][] matrix;
-    protected  double[] vectorB;
-    //protected  int N;
-
-    public Method(double[][] matrix, double[] vectorB) {
+    public Method(double[][] matrix, double[] vector) {
         this.matrix = matrix;
-        this.vectorB = vectorB;
-        //this.N = matrix.length;
+        this.vector = vector;
     }
 
-    public abstract void run();
+    public abstract void execute();
 
-    protected void print(double[] values) {
+    protected void printVector(double[] values) {
+        System.out.println("Result: ");
         for (int i = 0; i < values.length; i++) {
-            System.out.println("x" + i + " = " + values[i]);
+            System.out.print(values[i]+ " ");
         }
         System.out.println("\n");
+    }
+
+    protected void printMatrix(double[][] values) {
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                System.out.print(values[i][j] + "  ");
+            }
+            System.out.println("\n");
+        }
+    }
+
+    public static boolean isDiagonallyDominant(double[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            double diag = Math.abs(matrix[i][i]);
+            double sum = 0;
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (j != i) {
+                    sum += Math.abs(matrix[i][j]);
+                }
+            }
+            if (diag <= sum) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static double[][] makeDiagonallyDominant(double[][] matrix) {
+        int n =matrix.length;
+
+        for (int i = 0; i < n; i++) {
+            double diag = Math.abs(matrix[i][i]);
+            double sum = 0.0;
+            for (int j = 0; j < n; j++) {
+                if (j != i) {
+                    sum += Math.abs(matrix[i][j]);
+                }
+            }
+
+            if (diag <= sum) {
+                matrix[i][i] = sum + 1;
+            }
+        }
+
+        return matrix;
     }
 }
