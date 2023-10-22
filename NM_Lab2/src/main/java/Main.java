@@ -14,8 +14,8 @@ public class Main {
 
         double epsilon = 0.5;
 
-         //matrix = new double[][]{{3, -1, 1}, {-1, 2, 0.5}, {1, 0.5, 3}};
-        // vector = new double[]{1, 1.75, 2.5};
+         matrix = new double[][]{{3, -1, 1}, {-1, 2, 0.5}, {1, 0.5, 3}};
+         vector = new double[]{1, 1.75, 2.5};
 
         Scanner scanner = new Scanner(System.in);
 
@@ -33,25 +33,25 @@ public class Main {
 
 
 
-            switch (expression) {
-                case 'r':
-                    matrix = buildRandomMatrix(size);
-                    break;
+    switch (expression) {
+        case 'r':
+            //matrix = buildRandomMatrix(size);
+            break;
 
-                case 'h':
-                    matrix = buildRandomHilbertMatrix(size);
-                    break;
+        case 'h':
+            matrix = buildRandomHilbertMatrix(size);
+            break;
 
-                case 'e':
-                    System.out.println("Exiting the program.");
-                    return;
+        case 'e':
+            System.out.println("Exiting the program.");
+            return;
 
-                default:
-                    System.out.println("Invalid option. Please try again.");
-                    break;
+        default:
+            System.out.println("Invalid option. Please try again.");
 
-            }
-            System.out.println("Choose the method you want to use");
+
+    }
+          System.out.println("Choose the method you want to use");
 
             System.out.println("[g] Gauss method ");
             System.out.println("[j] Jacobi method");
@@ -61,7 +61,7 @@ public class Main {
             expression = scanner.next().charAt(0);
             System.out.println();
 
-            vector=buildVector(matrix);
+           // vector=buildVector(matrix);
             Method method = new GaussMethod(matrix, vector);
 
             switch (expression) {

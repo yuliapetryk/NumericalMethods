@@ -11,6 +11,8 @@ public class SeidelMethod extends Method {
     }
 
     public  void execute(){
+        System.out.println("Your matrix:");
+        printMatrix(matrix);
         if (!isDiagonallyDominant(matrix)) {
             System.out.println("The matrix is not diagonally dominant. You cannot use the Seidel method.");
             matrix=makeDiagonallyDominant(matrix);
@@ -22,39 +24,35 @@ public class SeidelMethod extends Method {
     };
     public double[] calculate() {
         int maxIterations = 1000;
-        int n = matrix.length;
-        double[] X = new double[n];
+
+        double[] X = new double[vector.length];
+        double[] X_new = new double[vector.length];
 
         for (int k = 0; k < maxIterations; k++) {
-            double maxDiff = 0.0;
-
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < matrix.length; i++) {
                 double sum1 = 0.0;
                 double sum2 = 0.0;
 
                 for (int j = 0; j < i; j++) {
-                    sum1 += matrix[i][j] * X[j];
+                    sum1 += matrix[i][j] * X_new[j];
                 }
 
-                for (int j = i + 1; j < n; j++) {
+                for (int j = i + 1; j < matrix[i].length; j++) {
                     sum2 += matrix[i][j] * X[j];
                 }
 
-                double newX = (vector[i] - sum1 - sum2) / matrix[i][i];
-
-
-                double diff = Math.abs(newX - X[i]);
-                if (diff > maxDiff) {
-                    maxDiff = diff;
-                }
-
-                X[i] = newX;
+                X_new[i] = (vector[i] - sum1 - sum2) / matrix[i][i];
             }
 
-            if (maxDiff > epsilon) {
-                System.out.println((k+1) + " iterations were performed");
+            double normDiff = calculateNormDifference(X, X_new);
+
+            if (normDiff < epsilon) {
+                System.out.println((k + 1) + " iterations were performed");
+                System.out.println();
                 return X;
             }
+
+            System.arraycopy(X_new, 0, X, 0, X.length);
         }
 
         throw new IllegalArgumentException(maxIterations + " iterations are not enough to find a solution");

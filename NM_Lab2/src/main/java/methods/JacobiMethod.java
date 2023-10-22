@@ -11,6 +11,8 @@ public class JacobiMethod extends Method {
     }
 
     public  void execute(){
+        System.out.println("Your matrix:");
+        printMatrix(matrix);
         if (!isDiagonallyDominant(matrix)) {
             System.out.println("The matrix is not diagonally dominant. You cannot use the Jacobi method.");
             matrix=makeDiagonallyDominant(matrix);
@@ -38,15 +40,11 @@ public class JacobiMethod extends Method {
                 X_new[i] = (vector[i] - sum) / matrix[i][i];
             }
 
-            double maxDiff = 0.0;
-            for (int i = 0; i < X.length; i++) {
-                double diff = Math.abs(X_new[i] - X[i]);
-                if (diff > maxDiff) {
-                    maxDiff = diff;
-                }
-            }
 
-            if (maxDiff <epsilon) {
+
+            double normDiff = calculateNormDifference(X, X_new);
+
+            if (normDiff <epsilon) {
                 System.out.println((k+1) + " iterations were performed");
                 return X;
             }

@@ -64,4 +64,15 @@ public abstract class Method {
 
         return matrix;
     }
+
+    public double calculateNormDifference(double[] X, double[] X_new) {
+        double sumSquares = 0.0;
+
+        for (int i = 0; i < X.length; i++) {
+            double diff = X_new[i] - X[i];
+            sumSquares += diff * diff;
+        }
+
+        return Math.sqrt(sumSquares);
+    }
 }
