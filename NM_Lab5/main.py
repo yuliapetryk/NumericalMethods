@@ -27,26 +27,26 @@ def polynomial_lagrange(points, func_value):
     return result
 
 def polynomial_newton(points, func_value):
-    split_diff = []
+    differences = []
     for i in range(0, len(points)):
         if i == 0:
-            split_diff.append(func_value)
+            differences.append(func_value)
             continue
-        split_diff.append(calculate_split_diff(i, points, split_diff[i - 1]))
+        differences.append(calculate_differences(i, points, differences[i - 1]))
 
-    result = np.poly1d([split_diff[0][0]])
-    for i in range(1, len(split_diff)):
-        temp = np.poly1d([split_diff[i][0]])
+    result = np.poly1d([differences[0][0]])
+    for i in range(1, len(differences)):
+        temp = np.poly1d([differences[i][0]])
         for j in range(0, i):
            temp *= np.poly1d([1, -points[j]])
         result += temp
     return result
 
-def calculate_split_diff(index, points,  split_diff):
+def calculate_differences(index, points,  differences):
     result = np.zeros(len(points) - index, dtype=float)
     i, j = 0, 0
     while (i + index) < len(points):
-        result[j] = ( split_diff[i + 1] -  split_diff[i]) / (points[i + index] - points[i])
+        result[j] = ( differences[i + 1] - differences[i]) / (points[i + index] - points[i])
         j += 1
         i += 1
     return result
@@ -72,10 +72,10 @@ def cubic_spline_coef(points, func_value):
     for i in range(n-2, -1, -1):
         z[i] = z[i] - w[i]*z[i+1]
 
-    return w,z
+    return z
 
 def evaluate_cubic_spline(points, xi, func_value):
-    w, z = cubic_spline_coef(points, func_value)
+    z = cubic_spline_coef(points, func_value)
     index = points.searchsorted(xi)
     np.clip(index, 1, len(points)-1, index)
 
@@ -89,32 +89,33 @@ def evaluate_cubic_spline(points, xi, func_value):
     return result
 
 if __name__ == "__main__":
-    points = [-1, 0, 1]
+    points =np.linspace(-1, 3, 50)
 
     func_value = []
     for x in points:
-        func_value.append(function0(x))
+        func_value.append(function3(x))
 
     lagrange = polynomial_lagrange(points, func_value)
     newton = polynomial_newton(points, func_value)
     print(lagrange)
     print(newton)
-
+    points = np.asfarray(points)
+    func_value = np.asfarray(func_value)
     plt.figure(figsize=(20, 8))
-
+    value = np.linspace(points.min(), points.max(), 1000)
     plt.subplot(1, 3, 1)
-    plt.plot(points, [np.polyval(lagrange, x) for x in points], marker='o', linestyle='-', label='Інтерполяційний поліном Лагранжа')
+    plt.plot(value, [np.polyval(lagrange, x) for x in value], linestyle='-', label='Інтерполяційний поліном Лагранжа')
     plt.legend()
 
     plt.subplot(1, 3, 2)
-    plt.plot(points, [np.polyval(newton, x) for x in points], marker='o', linestyle='-', label='Інтерполяційний поліном Ньютона')
+    plt.plot(value, [np.polyval(newton, x) for x in value], linestyle='-', label='Інтерполяційний поліном Ньютона')
     plt.legend()
 
-    points = np.asfarray(points)
-    func_value = np.asfarray(func_value)
+
 
     x_vals = np.linspace(points.min(), points.max(), 1000)
     y_vals = evaluate_cubic_spline(points, x_vals, func_value)
+
     plt.subplot(1, 3, 3)
 
     plt.plot(x_vals, y_vals, label='Інтерполяційний кубічний сплайн')
